@@ -1,4 +1,4 @@
-# charter-forge — agent guide
+# dictiva-agent-governance — agent guide
 
 A vendor-neutral agent-governance starter kit. This repo governs itself with the kit it ships.
 

@@ -1,12 +1,12 @@
-# charter-forge
+# dictiva-agent-governance
 
 **Give any repo a small, durable agent-governance setup in about a minute — named agents, written
 rules about what each may and may not do, and a hook that physically blocks the dangerous commands.**
 
-[![verify](https://github.com/dictiva/charter-forge/actions/workflows/verify.yml/badge.svg)](https://github.com/dictiva/charter-forge/actions/workflows/verify.yml)
+[![verify](https://github.com/dictiva/dictiva-agent-governance/actions/workflows/verify.yml/badge.svg)](https://github.com/dictiva/dictiva-agent-governance/actions/workflows/verify.yml)
 &nbsp;[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-![charter-forge denies the dangerous git commands and prints PASS](docs/demo.svg)
+![dictiva-agent-governance denies the dangerous git commands and prints PASS](docs/demo.svg)
 
 It's plain Markdown + a few shell/Node scripts. Nothing here depends on a vendor. You can connect
 [Dictiva](#connecting-dictiva-optional) for verifiable identity and signed attestations, or never do —
@@ -92,7 +92,7 @@ lint are untouched and keep working. No lock-in — that's the point.
 
 ## Built on open standards — and it governs itself
 
-charter-forge is a thin layer over open standards — `AGENTS.md` (Linux Foundation / Agentic AI Foundation),
+dictiva-agent-governance is a thin layer over open standards — `AGENTS.md` (Linux Foundation / Agentic AI Foundation),
 W3C Verifiable Credentials + DID, in-toto, OSCAL — so what you author outlives any vendor, including Dictiva.
 See [`docs/STANDARDS.md`](docs/STANDARDS.md). The repo also runs the kit on itself: see its own
 [`AGENTS.md`](AGENTS.md) and [`.claude/agents/`](.claude/agents), with CI (`self-verify`) as the gate.

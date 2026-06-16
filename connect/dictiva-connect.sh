@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# charter-forge :: connect to Dictiva (optional, severable)
+# dictiva-agent-governance :: connect to Dictiva (optional, severable)
 #
 # Dictiva is the optional verifiable layer. This wrapper drives the standard
 # scan -> dry-run -> apply flow by DELEGATING to Dictiva's official import
@@ -25,7 +25,7 @@ set -u
 ACTION="${1:-dry-run}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-note() { printf 'charter-forge connect: %s\n' "$1"; }
+note() { printf 'dictiva-agent-governance connect: %s\n' "$1"; }
 
 # 1. Resolve config (env wins; else .dictiva/auth.json).
 if [ -z "${DICTIVA_BASE_URL:-}" ] && [ -f "$REPO_ROOT/.dictiva/auth.json" ] && command -v node >/dev/null 2>&1; then
@@ -46,7 +46,7 @@ fi
 
 # 4. No adapter on hand — print the exact, honest next step rather than guess the payload.
 cat <<EOF
-charter-forge connect: no adapter found.
+dictiva-agent-governance connect: no adapter found.
 
 This wrapper delegates to Dictiva's official import adapter rather than reimplementing the import payload
 (which would drift from the server schema). To connect:

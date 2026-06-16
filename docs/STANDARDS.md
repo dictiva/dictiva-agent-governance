@@ -1,6 +1,6 @@
-# Standards charter-forge builds on
+# Standards dictiva-agent-governance builds on
 
-charter-forge is intentionally a thin layer over open standards, so the governance you author outlives any
+dictiva-agent-governance is intentionally a thin layer over open standards, so the governance you author outlives any
 single vendor — including Dictiva. Nothing here is a proprietary format you'd be trapped in.
 
 | Standard | Steward / status | Role in the kit |
@@ -24,7 +24,7 @@ single vendor — including Dictiva. Nothing here is a proprietary format you'd 
 
 ## Toward AAIF
 
-charter-forge aims to be a small, honest **reference implementation of repo-level agent governance on top of
+dictiva-agent-governance aims to be a small, honest **reference implementation of repo-level agent governance on top of
 `AGENTS.md`** — the identity/charter/enforcement pattern expressed in the most portable form available.
 Issues and PRs that strengthen the standards mapping (or surface where a tier silently degrades on a given
 harness) are especially welcome.

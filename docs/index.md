@@ -1,6 +1,6 @@
 # Agent governance, in one screen
 
-You let an AI agent work in your repo. **charter-forge** gives that agent three things a generic
+You let an AI agent work in your repo. **dictiva-agent-governance** gives that agent three things a generic
 assistant doesn't have: a **name**, a **charter** (what it may and may not do), and **enforcement** that
 physically blocks the dangerous commands. That's the whole idea — identity, rules, and teeth.
 

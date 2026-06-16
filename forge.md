@@ -288,14 +288,14 @@ accurate if you plan to connect Dictiva.
 ### FILE: governance/hooks/guard.sh  (verbatim)
 ````bash
 #!/usr/bin/env bash
-# charter-forge :: guard.sh
+# dictiva-agent-governance :: guard.sh
 #
 # A Claude Code PreToolUse deny-hook for the Bash tool. It blocks the shell
 # commands your charter says an agent "may not" run — regardless of skill,
 # instruction, or context drift. Friction is the feature.
 #
 # Deny patterns are loaded from guard-patterns.json (next to this script, or
-# $CHARTER_FORGE_PATTERNS), which forge.md generates FROM your AGENTS.md
+# $DICTIVA_AGENT_GOVERNANCE_PATTERNS), which forge.md generates FROM your AGENTS.md
 # charter so the written rule and the physical block share one source.
 #
 # FAIL CLOSED: a deny-hook that cannot parse its input must not allow blindly.
@@ -311,11 +311,11 @@ accurate if you plan to connect Dictiva.
 set +e
 INPUT=$(cat)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PATTERNS_FILE="${CHARTER_FORGE_PATTERNS:-$SCRIPT_DIR/guard-patterns.json}"
+PATTERNS_FILE="${DICTIVA_AGENT_GOVERNANCE_PATTERNS:-$SCRIPT_DIR/guard-patterns.json}"
 
 if ! command -v python3 >/dev/null 2>&1; then
   # No parser -> fail closed.
-  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"charter-forge guard.sh cannot parse tool input (python3 not found) — failing closed. Install python3, or run the command yourself in a terminal."}}'
+  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"dictiva-agent-governance guard.sh cannot parse tool input (python3 not found) — failing closed. Install python3, or run the command yourself in a terminal."}}'
   exit 0
 fi
 
@@ -328,7 +328,7 @@ except Exception:
     print(json.dumps({"hookSpecificOutput": {
         "hookEventName": "PreToolUse",
         "permissionDecision": "deny",
-        "permissionDecisionReason": "charter-forge: unparseable tool input — failing closed."}}, separators=(",", ":")))
+        "permissionDecisionReason": "dictiva-agent-governance: unparseable tool input — failing closed."}}, separators=(",", ":")))
     sys.exit(0)
 
 # Only guard the Bash tool; everything else is allowed to pass through.
@@ -403,7 +403,7 @@ exit 0
 ### FILE: governance/hooks/pre-commit  (verbatim)
 ````bash
 #!/usr/bin/env bash
-# charter-forge :: git pre-commit hook (cross-harness hard tier — part 1)
+# dictiva-agent-governance :: git pre-commit hook (cross-harness hard tier — part 1)
 #
 # Refuses a commit made DIRECTLY on the default branch. This is the honest,
 # universal git-native guardrail: it works in any repo with git, regardless of
@@ -426,7 +426,7 @@ default_branch="$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/d
 current="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo '')"
 
 if [ "$current" = "$default_branch" ]; then
-  echo "charter-forge: refusing a direct commit on '$default_branch' (the default branch is protected)." >&2
+  echo "dictiva-agent-governance: refusing a direct commit on '$default_branch' (the default branch is protected)." >&2
   echo "  Make a feature branch:  git switch -c my-change" >&2
   echo "  Override on purpose:    CF_ALLOW=1 git commit ..." >&2
   exit 1
@@ -437,7 +437,7 @@ exit 0
 ### FILE: governance/hooks/pre-push  (verbatim)
 ````bash
 #!/usr/bin/env bash
-# charter-forge :: git pre-push hook (cross-harness hard tier — part 2)
+# dictiva-agent-governance :: git pre-push hook (cross-harness hard tier — part 2)
 #
 # Blocks two charter prohibitions at the one git event that can see them:
 #   1. a direct push to the default branch, and
@@ -463,7 +463,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 
   # 1. direct push to the default branch
   if [ "$remote_ref" = "refs/heads/$default_branch" ]; then
-    echo "charter-forge: refusing a direct push to '$default_branch' (protected by charter)." >&2
+    echo "dictiva-agent-governance: refusing a direct push to '$default_branch' (protected by charter)." >&2
     echo "  Open a PR from a feature branch instead, or override with CF_ALLOW=1." >&2
     status=1
   fi
@@ -471,7 +471,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   # 2. force / non-fast-forward push (remote has commits the local ref doesn't contain)
   if [ "$remote_sha" != "$z40" ] && [ "$local_sha" != "$z40" ]; then
     if ! git merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
-      echo "charter-forge: refusing a non-fast-forward (force) push to '$remote_ref' (protected by charter)." >&2
+      echo "dictiva-agent-governance: refusing a non-fast-forward (force) push to '$remote_ref' (protected by charter)." >&2
       echo "  Override on purpose with CF_ALLOW=1." >&2
       status=1
     fi
@@ -484,7 +484,7 @@ exit "$status"
 ### FILE: governance/hooks/preflight.sh  (verbatim)
 ````bash
 #!/usr/bin/env bash
-# charter-forge :: preflight.sh (Claude Code SessionStart hook)
+# dictiva-agent-governance :: preflight.sh (Claude Code SessionStart hook)
 #
 # Silent on a clean state. When the workspace is "owed" something, it emits a
 # short punch list as additionalContext so the agent (and you) start the session
@@ -506,7 +506,7 @@ if [ "${#owed[@]}" -eq 0 ]; then
   exit 0
 fi
 
-msg="charter-forge preflight — owed: "
+msg="dictiva-agent-governance preflight — owed: "
 for i in "${owed[@]}"; do msg="$msg- $i  "; done
 
 if command -v python3 >/dev/null 2>&1; then
@@ -524,7 +524,7 @@ exit 0
 ````markdown
 # Agent governance for {{PROJECT_NAME}}
 
-This repo has a charter-forge governance setup. Agents are named in `AGENTS.md`, scoped in
+This repo has a dictiva-agent-governance governance setup. Agents are named in `AGENTS.md`, scoped in
 `.claude/agents/`, and the dangerous commands are physically blocked by the hooks here.
 
 ## What's enforced, and where
@@ -554,7 +554,7 @@ override a block on purpose in git: `CF_ALLOW=1 git commit ...`.
 ### FILE: scripts/lint-attests.mjs  (verbatim)
 ````javascript
 #!/usr/bin/env node
-// charter-forge :: lint-attests.mjs
+// dictiva-agent-governance :: lint-attests.mjs
 //
 // Validates governance commit trailers in recent history. Pure Node + git,
 // zero network, zero server. WARN-MODE BY DEFAULT (always exits 0) so it is
@@ -591,7 +591,7 @@ function git(cmd) {
 // Resolve the commit list. Tolerate an empty / brand-new repo gracefully.
 const log = git(`log ${RANGE} --format=%H`).trim();
 if (!log) {
-  console.log("charter-forge lint-attests: no commits to scan — ok.");
+  console.log("dictiva-agent-governance lint-attests: no commits to scan — ok.");
   process.exit(0);
 }
 const commits = log.split("\n").filter(Boolean);
@@ -611,7 +611,7 @@ for (const sha of commits) {
 }
 
 console.log(
-  `charter-forge lint-attests: scanned ${commits.length} commit(s), ` +
+  `dictiva-agent-governance lint-attests: scanned ${commits.length} commit(s), ` +
     `found ${trailers} governance trailer(s), ${problems.length} malformed.`
 );
 
@@ -620,7 +620,7 @@ for (const p of problems) {
 }
 
 if (problems.length && FAIL) {
-  console.error("charter-forge lint-attests: failing (--fail set).");
+  console.error("dictiva-agent-governance lint-attests: failing (--fail set).");
   process.exit(1);
 }
 process.exit(0);
@@ -629,7 +629,7 @@ process.exit(0);
 ### FILE: scripts/self-verify.sh  (verbatim)
 ````bash
 #!/usr/bin/env bash
-# charter-forge :: self-verify.sh
+# dictiva-agent-governance :: self-verify.sh
 #
 # Proves the enforcement actually fires — WITHOUT Claude Code, without a network,
 # without an API key. Runs in any shell. Feeds sample commands to guard.sh and
@@ -645,8 +645,8 @@ if   [ -f "$ROOT/governance/hooks/guard.sh" ]; then HOOKS="$ROOT/governance/hook
 elif [ -f "$ROOT/hooks/guard.sh" ];            then HOOKS="$ROOT/hooks"
 else echo "self-verify: cannot find guard.sh under governance/hooks/ or hooks/" >&2; exit 2; fi
 GUARD="$HOOKS/guard.sh"
-if [ -f "$HOOKS/guard-patterns.json" ]; then export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.json"
-else export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.example.json"; fi
+if [ -f "$HOOKS/guard-patterns.json" ]; then export DICTIVA_AGENT_GOVERNANCE_PATTERNS="$HOOKS/guard-patterns.json"
+else export DICTIVA_AGENT_GOVERNANCE_PATTERNS="$HOOKS/guard-patterns.example.json"; fi
 fails=0
 
 bash_json() { # $1 = command string -> a Claude Code PreToolUse Bash payload
@@ -668,7 +668,7 @@ assert() { # $1 expect(deny|allow)  $2 command
   fi
 }
 
-echo "charter-forge self-verify — guard.sh decisions:"
+echo "dictiva-agent-governance self-verify — guard.sh decisions:"
 assert deny  "git push --force origin main"
 assert deny  "git push -f origin feature/x"
 assert deny  "git reset --hard HEAD~3"
@@ -678,7 +678,7 @@ assert allow "git status"
 assert allow "ls -la && echo hello"
 
 echo
-echo "charter-forge self-verify — audit lint:"
+echo "dictiva-agent-governance self-verify — audit lint:"
 if command -v node >/dev/null 2>&1; then
   node "$ROOT/scripts/lint-attests.mjs" | sed 's/^/  /'
 else

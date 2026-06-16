@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// charter-forge :: lint-attests.mjs
+// dictiva-agent-governance :: lint-attests.mjs
 //
 // Validates governance commit trailers in recent history. Pure Node + git,
 // zero network, zero server. WARN-MODE BY DEFAULT (always exits 0) so it is
@@ -36,7 +36,7 @@ function git(cmd) {
 // Resolve the commit list. Tolerate an empty / brand-new repo gracefully.
 const log = git(`log ${RANGE} --format=%H`).trim();
 if (!log) {
-  console.log("charter-forge lint-attests: no commits to scan — ok.");
+  console.log("dictiva-agent-governance lint-attests: no commits to scan — ok.");
   process.exit(0);
 }
 const commits = log.split("\n").filter(Boolean);
@@ -56,7 +56,7 @@ for (const sha of commits) {
 }
 
 console.log(
-  `charter-forge lint-attests: scanned ${commits.length} commit(s), ` +
+  `dictiva-agent-governance lint-attests: scanned ${commits.length} commit(s), ` +
     `found ${trailers} governance trailer(s), ${problems.length} malformed.`
 );
 
@@ -65,7 +65,7 @@ for (const p of problems) {
 }
 
 if (problems.length && FAIL) {
-  console.error("charter-forge lint-attests: failing (--fail set).");
+  console.error("dictiva-agent-governance lint-attests: failing (--fail set).");
   process.exit(1);
 }
 process.exit(0);

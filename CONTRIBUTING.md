@@ -1,4 +1,4 @@
-# Contributing to charter-forge
+# Contributing to dictiva-agent-governance
 
 Thanks for helping. The kit is small on purpose; the bar is **honesty and verifiability** — every claim about
 enforcement should be runnable.
@@ -29,7 +29,7 @@ covers it.
 
 ## This repo governs itself
 
-charter-forge runs the kit it ships: see its own [`AGENTS.md`](AGENTS.md) and [`.claude/agents/`](.claude/agents).
+dictiva-agent-governance runs the kit it ships: see its own [`AGENTS.md`](AGENTS.md) and [`.claude/agents/`](.claude/agents).
 Enforcement on this public repo is CI (`self-verify`); maintainers who want local hooks can run `forge.md`
 against their clone. Work happens on feature branches with PRs — never direct to `main`.
 

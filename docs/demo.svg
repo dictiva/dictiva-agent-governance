@@ -3,7 +3,7 @@
   <circle cx="34" cy="34" r="6" fill="#ff5f56"/>
   <circle cx="54" cy="34" r="6" fill="#ffbd2e"/>
   <circle cx="74" cy="34" r="6" fill="#27c93f"/>
-  <text x="98" y="39" font-size="13" fill="#8b949e">charter-forge — scripts/self-verify.sh</text>
+  <text x="98" y="39" font-size="13" fill="#8b949e">dictiva-agent-governance — scripts/self-verify.sh</text>
   <line x1="8" y1="56" x2="752" y2="56" stroke="#21262d"/>
   <text font-size="14.5">
     <tspan x="28" y="88" fill="#8b949e">$ </tspan><tspan fill="#c9d1d9">bash scripts/self-verify.sh</tspan>

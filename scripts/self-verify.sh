@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# charter-forge :: self-verify.sh
+# dictiva-agent-governance :: self-verify.sh
 #
 # Proves the enforcement actually fires — WITHOUT Claude Code, without a network,
 # without an API key. Runs in any shell. Feeds sample commands to guard.sh and
@@ -15,8 +15,8 @@ if   [ -f "$ROOT/governance/hooks/guard.sh" ]; then HOOKS="$ROOT/governance/hook
 elif [ -f "$ROOT/hooks/guard.sh" ];            then HOOKS="$ROOT/hooks"
 else echo "self-verify: cannot find guard.sh under governance/hooks/ or hooks/" >&2; exit 2; fi
 GUARD="$HOOKS/guard.sh"
-if [ -f "$HOOKS/guard-patterns.json" ]; then export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.json"
-else export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.example.json"; fi
+if [ -f "$HOOKS/guard-patterns.json" ]; then export DICTIVA_AGENT_GOVERNANCE_PATTERNS="$HOOKS/guard-patterns.json"
+else export DICTIVA_AGENT_GOVERNANCE_PATTERNS="$HOOKS/guard-patterns.example.json"; fi
 fails=0
 
 bash_json() { # $1 = command string -> a Claude Code PreToolUse Bash payload
@@ -38,7 +38,7 @@ assert() { # $1 expect(deny|allow)  $2 command
   fi
 }
 
-echo "charter-forge self-verify — guard.sh decisions:"
+echo "dictiva-agent-governance self-verify — guard.sh decisions:"
 assert deny  "git push --force origin main"
 assert deny  "git push -f origin feature/x"
 assert deny  "git reset --hard HEAD~3"
@@ -48,7 +48,7 @@ assert allow "git status"
 assert allow "ls -la && echo hello"
 
 echo
-echo "charter-forge self-verify — audit lint:"
+echo "dictiva-agent-governance self-verify — audit lint:"
 if command -v node >/dev/null 2>&1; then
   node "$ROOT/scripts/lint-attests.mjs" | sed 's/^/  /'
 else

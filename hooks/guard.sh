@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# charter-forge :: guard.sh
+# dictiva-agent-governance :: guard.sh
 #
 # A Claude Code PreToolUse deny-hook for the Bash tool. It blocks the shell
 # commands your charter says an agent "may not" run — regardless of skill,
 # instruction, or context drift. Friction is the feature.
 #
 # Deny patterns are loaded from guard-patterns.json (next to this script, or
-# $CHARTER_FORGE_PATTERNS), which forge.md generates FROM your AGENTS.md
+# $DICTIVA_AGENT_GOVERNANCE_PATTERNS), which forge.md generates FROM your AGENTS.md
 # charter so the written rule and the physical block share one source.
 #
 # FAIL CLOSED: a deny-hook that cannot parse its input must not allow blindly.
@@ -22,11 +22,11 @@
 set +e
 INPUT=$(cat)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PATTERNS_FILE="${CHARTER_FORGE_PATTERNS:-$SCRIPT_DIR/guard-patterns.json}"
+PATTERNS_FILE="${DICTIVA_AGENT_GOVERNANCE_PATTERNS:-$SCRIPT_DIR/guard-patterns.json}"
 
 if ! command -v python3 >/dev/null 2>&1; then
   # No parser -> fail closed.
-  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"charter-forge guard.sh cannot parse tool input (python3 not found) — failing closed. Install python3, or run the command yourself in a terminal."}}'
+  printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"dictiva-agent-governance guard.sh cannot parse tool input (python3 not found) — failing closed. Install python3, or run the command yourself in a terminal."}}'
   exit 0
 fi
 
@@ -39,7 +39,7 @@ except Exception:
     print(json.dumps({"hookSpecificOutput": {
         "hookEventName": "PreToolUse",
         "permissionDecision": "deny",
-        "permissionDecisionReason": "charter-forge: unparseable tool input — failing closed."}}, separators=(",", ":")))
+        "permissionDecisionReason": "dictiva-agent-governance: unparseable tool input — failing closed."}}, separators=(",", ":")))
     sys.exit(0)
 
 # Only guard the Bash tool; everything else is allowed to pass through.

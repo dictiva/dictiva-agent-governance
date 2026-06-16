@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# charter-forge :: git pre-commit hook (cross-harness hard tier — part 1)
+# dictiva-agent-governance :: git pre-commit hook (cross-harness hard tier — part 1)
 #
 # Refuses a commit made DIRECTLY on the default branch. This is the honest,
 # universal git-native guardrail: it works in any repo with git, regardless of
@@ -22,7 +22,7 @@ default_branch="$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/d
 current="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo '')"
 
 if [ "$current" = "$default_branch" ]; then
-  echo "charter-forge: refusing a direct commit on '$default_branch' (the default branch is protected)." >&2
+  echo "dictiva-agent-governance: refusing a direct commit on '$default_branch' (the default branch is protected)." >&2
   echo "  Make a feature branch:  git switch -c my-change" >&2
   echo "  Override on purpose:    CF_ALLOW=1 git commit ..." >&2
   exit 1
