@@ -1,0 +1,56 @@
+# charter-forge — agent guide
+
+A vendor-neutral agent-governance starter kit. This repo governs itself with the kit it ships.
+
+This file is the canonical, cross-harness guide for AI agents working in this repo. It is read natively by
+27+ tools (Codex, Cursor, Copilot, Gemini, goose, …). The prose `May` / `May not` below is what every tool
+reads; the machine-readable mirror is for local drift-checking and the optional Dictiva import.
+
+## Agents
+
+<!-- forge:start id=agent-lead -->
+### lead — coordinator
+**Owner:** carlos@dictiva.com · **Risk:** medium
+
+**May:** plan work, review changes, and merge approved pull requests.
+**May not:** force-push, `reset --hard`, or deploy to production without explicit human approval.
+**Escalates:** anything in "May not" → ask the human first.
+
+<!-- machine-readable mirror (tooling / optional Dictiva import) -->
+#### May
+- plan_work
+- review_changes
+- merge_approved_pr
+#### May not
+- force_push
+- reset_hard
+- deploy_to_prod_without_approval
+#### Data access
+- source_code
+- pull_request_metadata
+#### External systems
+- github
+<!-- forge:end -->
+
+<!-- forge:start id=agent-builder -->
+### builder — executor
+**Owner:** carlos@dictiva.com · **Risk:** medium
+
+**May:** write code, run tests, and open pull requests.
+**May not:** merge to the default branch, force-push, or change dependencies without the lead's approval.
+**Escalates:** schema changes, new dependencies → ask the lead.
+
+<!-- machine-readable mirror (tooling / optional Dictiva import) -->
+#### May
+- write_code
+- run_tests
+- open_pull_request
+#### May not
+- merge_to_default_branch
+- force_push
+- change_dependencies_without_approval
+#### Data access
+- source_code
+#### External systems
+- github
+<!-- forge:end -->

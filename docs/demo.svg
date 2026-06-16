@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 312" width="760" height="312" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" role="img" aria-label="Terminal output: self-verify.sh denies the dangerous git commands, allows the safe ones, and prints PASS.">
+  <rect x="8" y="8" width="744" height="296" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <circle cx="34" cy="34" r="6" fill="#ff5f56"/>
+  <circle cx="54" cy="34" r="6" fill="#ffbd2e"/>
+  <circle cx="74" cy="34" r="6" fill="#27c93f"/>
+  <text x="98" y="39" font-size="13" fill="#8b949e">charter-forge — scripts/self-verify.sh</text>
+  <line x1="8" y1="56" x2="752" y2="56" stroke="#21262d"/>
+  <text font-size="14.5">
+    <tspan x="28" y="88" fill="#8b949e">$ </tspan><tspan fill="#c9d1d9">bash scripts/self-verify.sh</tspan>
+    <tspan x="28" y="116" fill="#6e7681">  ok  </tspan><tspan fill="#ff7b72">[deny ]</tspan><tspan fill="#c9d1d9"> git push --force origin main</tspan>
+    <tspan x="28" y="142" fill="#6e7681">  ok  </tspan><tspan fill="#ff7b72">[deny ]</tspan><tspan fill="#c9d1d9"> git reset --hard HEAD~3</tspan>
+    <tspan x="28" y="168" fill="#6e7681">  ok  </tspan><tspan fill="#ff7b72">[deny ]</tspan><tspan fill="#c9d1d9"> git push origin main</tspan>
+    <tspan x="28" y="194" fill="#6e7681">  ok  </tspan><tspan fill="#3fb950">[allow]</tspan><tspan fill="#c9d1d9"> git push origin feature/my-change</tspan>
+    <tspan x="28" y="220" fill="#6e7681">  ok  </tspan><tspan fill="#3fb950">[allow]</tspan><tspan fill="#c9d1d9"> git status</tspan>
+  </text>
+  <text x="28" y="256" font-size="14.5" fill="#3fb950">PASS — enforcement fires as specified. Friction is the feature.</text>
+  <text x="28" y="284" font-size="12.5" fill="#6e7681">no account · no network · no API key</text>
+</svg>

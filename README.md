@@ -3,6 +3,11 @@
 **Give any repo a small, durable agent-governance setup in about a minute — named agents, written
 rules about what each may and may not do, and a hook that physically blocks the dangerous commands.**
 
+[![verify](https://github.com/dictiva/charter-forge/actions/workflows/verify.yml/badge.svg)](https://github.com/dictiva/charter-forge/actions/workflows/verify.yml)
+&nbsp;[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+![charter-forge denies the dangerous git commands and prints PASS](docs/demo.svg)
+
 It's plain Markdown + a few shell/Node scripts. Nothing here depends on a vendor. You can connect
 [Dictiva](#connecting-dictiva-optional) for verifiable identity and signed attestations, or never do —
 the governance is yours either way.
@@ -64,9 +69,17 @@ hooks/
 scripts/
   lint-attests.mjs            warn-mode commit-trailer audit (Governed-By: / Attests:)
   self-verify.sh              harness-independent proof the guard fires
+  build-forge.py              regenerate forge.md's embedded manifest from the kit files
+  check-forge-embeds.py       CI: forge.md manifest matches the kit files (no drift)
+  verify-forge-selfcontained.py  CI: forge.md installs clean from itself alone
 templates/                    AGENTS.md + agent definition + roster templates forge.md fills in
+connect/
+  README.md                   the optional Dictiva seam + the eject contract
+  dictiva-connect.sh          one-command connect wrapper (delegates to Dictiva's adapter)
 docs/index.md                 one-screen explainer
-connect/README.md             the optional Dictiva seam + the eject contract
+docs/STANDARDS.md             the open standards the kit builds on (AGENTS.md, W3C VC/DID, in-toto, OSCAL)
+AGENTS.md, .claude/agents/    this repo governing itself with the kit it ships
+.github/workflows/verify.yml  CI: the three checks above, on every push
 ```
 
 ## Connecting Dictiva (optional)
@@ -76,6 +89,14 @@ same files this kit writes and adds verified `did:web` identity, **signed** atte
 dashboard, and the one thing the local hooks can't do: bind a `May not` clause to a **server-side refusal**.
 To eject: delete `.dictiva/auth.json` and `governance/connect/`. Your charters, allowlists, hooks, and
 lint are untouched and keep working. No lock-in — that's the point.
+
+## Built on open standards — and it governs itself
+
+charter-forge is a thin layer over open standards — `AGENTS.md` (Linux Foundation / Agentic AI Foundation),
+W3C Verifiable Credentials + DID, in-toto, OSCAL — so what you author outlives any vendor, including Dictiva.
+See [`docs/STANDARDS.md`](docs/STANDARDS.md). The repo also runs the kit on itself: see its own
+[`AGENTS.md`](AGENTS.md) and [`.claude/agents/`](.claude/agents), with CI (`self-verify`) as the gate.
+Contributions welcome — [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 

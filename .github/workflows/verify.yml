@@ -1,0 +1,27 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: forge.md manifest matches the canonical kit files (no drift)
+        run: python3 scripts/check-forge-embeds.py
+
+      - name: enforcement self-verify (guard denies the dangerous commands)
+        run: bash scripts/self-verify.sh
+
+      - name: forge.md installs clean from itself alone (the dogfood)
+        run: python3 scripts/verify-forge-selfcontained.py

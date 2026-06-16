@@ -14,6 +14,24 @@ severable.
   **server-side refusal**, so a prohibition is enforced even outside the one harness that loads `guard.sh`.
   The local hooks can't reach this; it's the concrete thing you pay for.
 
+## Run it — one command
+
+[`connect/dictiva-connect.sh`](dictiva-connect.sh) drives the `scan → dry-run → apply` flow:
+
+```bash
+export DICTIVA_BASE_URL=https://<your-dictiva-host>  DICTIVA_API_KEY=<tenant key, agents:write>
+export DICTIVA_FORMALIZE_CLI=/path/to/formalize-agents.mjs   # from the dictiva-formalize-agents skill
+connect/dictiva-connect.sh dry-run    # preview — writes nothing
+connect/dictiva-connect.sh apply      # creates DRAFT identities + charters to curate
+```
+
+**Why the wrapper delegates instead of bundling the importer.** This public, vendor-neutral repo does
+**not** vendor a copy of Dictiva's `formalize-agents.mjs`. A pinned snapshot drifts from the server schema
+(the import endpoint returns HTTP 426 on a version bump), and bundling internal tooling would couple a
+standards-based kit to one vendor's release cadence. The wrapper points at the adapter you already have
+(via `DICTIVA_FORMALIZE_CLI`) so the payload always matches the live API, and prints the exact next step if
+it isn't present. The kit ships no import client of its own.
+
 ## How it reads your repo (stated accurately)
 
 There are **two** ingestion paths, and they read different things — don't conflate them:
