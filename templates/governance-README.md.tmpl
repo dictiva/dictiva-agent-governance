@@ -1,0 +1,27 @@
+# Agent governance for {{PROJECT_NAME}}
+
+This repo has a charter-forge governance setup. Agents are named in `AGENTS.md`, scoped in
+`.claude/agents/`, and the dangerous commands are physically blocked by the hooks here.
+
+## What's enforced, and where
+
+| Tier | Mechanism | Works on |
+|---|---|---|
+| **Soft** (portable floor) | the `May not` rules in `AGENTS.md` | all 27+ AGENTS.md-reading tools |
+| **Medium** | the `tools:` allowlist in `.claude/agents/*.md` | Claude Code; partial Codex |
+| **Hard (git)** | `.git/hooks/pre-commit` + `pre-push` (no direct/force push or commit on the default branch) | any repo with git |
+| **Hard (live)** | `governance/hooks/guard.sh` via Claude Code `PreToolUse` | Claude Code only |
+
+The deny patterns in `hooks/guard-patterns.json` are derived from the charter's `May not` lines, so the
+written rule and the physical block stay in sync. Edit the charter, re-run forge.md, and they regenerate.
+
+## Prove it
+
+```bash
+bash scripts/self-verify.sh
+```
+
+## Re-run / change
+
+Tell any AI agent "read forge.md and run it" to add a role, tighten a guard, or connect Dictiva. To
+override a block on purpose in git: `CF_ALLOW=1 git commit ...`.

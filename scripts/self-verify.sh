@@ -10,8 +10,13 @@
 
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-GUARD="$ROOT/hooks/guard.sh"
-export CHARTER_FORGE_PATTERNS="$ROOT/hooks/guard-patterns.example.json"
+# Hooks live at governance/hooks/ (installed by forge.md) or hooks/ (this kit's dev layout).
+if   [ -f "$ROOT/governance/hooks/guard.sh" ]; then HOOKS="$ROOT/governance/hooks"
+elif [ -f "$ROOT/hooks/guard.sh" ];            then HOOKS="$ROOT/hooks"
+else echo "self-verify: cannot find guard.sh under governance/hooks/ or hooks/" >&2; exit 2; fi
+GUARD="$HOOKS/guard.sh"
+if [ -f "$HOOKS/guard-patterns.json" ]; then export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.json"
+else export CHARTER_FORGE_PATTERNS="$HOOKS/guard-patterns.example.json"; fi
 fails=0
 
 bash_json() { # $1 = command string -> a Claude Code PreToolUse Bash payload
