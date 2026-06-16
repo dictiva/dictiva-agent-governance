@@ -1,0 +1,20 @@
+{
+  "_comment": "Generated FROM your AGENTS.md charter 'May not' lines by forge.md, so the written rule and the physical block share one source. Edit the charter, re-run forge.md, and this regenerates. Hand-editing is fine too.",
+  "deny": [
+    {
+      "id": "force-push",
+      "match": "git\\s+push\\b.*(--force\\b|-f\\b|--force-with-lease|\\s\\+)",
+      "reason": "force-push is blocked by charter (May not: force_push)"
+    },
+    {
+      "id": "reset-hard",
+      "match": "git\\s+reset\\b.*--hard",
+      "reason": "reset --hard is blocked by charter (May not: discard_history)"
+    },
+    {
+      "id": "push-default",
+      "match": "git\\s+push\\b.*\\b(main|master)\\b",
+      "reason": "direct push to the default branch is blocked by charter (May not: push_to_default)"
+    }
+  ]
+}
