@@ -5,15 +5,24 @@ enforcement should be runnable.
 
 ## Run the checks locally
 
-These are exactly what CI runs (`.github/workflows/verify.yml`):
+Use the Node version in `.nvmrc` for development and CI (currently 24.22.1, the
+[October 2026 security release](https://nodejs.org/en/blog/release/v24.22.1)). With NVM installed,
+run `nvm install` once, then `nvm use` in this checkout. The kit has no npm dependencies to install.
+
+CI (`.github/workflows/verify.yml`) asserts that the actual Node version matches `.nvmrc`, then runs:
 
 ```bash
+node --check scripts/lint-attests.mjs          # audit script parses under the selected runtime
+node scripts/lint-attests.mjs                 # run the audit directly (existing warning policy)
 python3 scripts/check-forge-embeds.py        # forge.md manifest matches the kit files (no drift)
 bash    scripts/self-verify.sh               # the guard denies the dangerous commands
 python3 scripts/verify-forge-selfcontained.py  # forge.md installs clean from itself alone
 ```
 
-All three must pass. They need `bash`, `python3`, `git`, and Node 18+.
+All checks must pass. They need `bash`, `python3`, `git`, and the pinned Node release.
+The explicit Node checks ensure a skipped or failed audit inside `self-verify.sh` cannot count as
+successful Node qualification. CI uses GitHub-hosted runners; the JavaScript Actions' internal Node
+runtime is managed by GitHub separately from the `.nvmrc` runtime used for the kit's scripts.
 
 ## The one rule that trips people up: forge.md is generated
 

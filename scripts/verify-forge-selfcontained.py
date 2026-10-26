@@ -59,7 +59,7 @@ for p in files:
 # install + run the enforcement proof
 run(["git", "init", "-b", "main", "-q"]); run(["git", "config", "user.email", "d@e.x"]); run(["git", "config", "user.name", "d"])
 open(os.path.join(out, ".seed"), "w").write("x\n")
-run(["git", "add", "-A"]); run(["git", "commit", "-qm", "seed", "--no-verify"])
+run(["git", "add", "-A"]); run(["git", "commit", "-qm", "seed"])
 for h in ("pre-commit", "pre-push"):
     shutil.copy(os.path.join(out, "governance/hooks", h), os.path.join(out, ".git/hooks", h))
     os.chmod(os.path.join(out, ".git/hooks", h), 0o755)
