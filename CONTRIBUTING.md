@@ -42,6 +42,12 @@ dictiva-agent-governance runs the kit it ships: see its own [`AGENTS.md`](AGENTS
 Enforcement on this public repo is CI (`self-verify`); maintainers who want local hooks can run `forge.md`
 against their clone. Work happens on feature branches with PRs — never direct to `main`.
 
+Maintainers merge an approved PR from its clean worktree using `python3 scripts/merge-pr.py <PR>`
+for the dry run, then `python3 scripts/merge-pr.py <PR> --execute`. Select `.nvmrc` with `nvm use`
+first. The gate requires the `verify` CI check and reruns the checks above, plus a secret scan;
+its full contract is in [`scripts/GATE.md`](scripts/GATE.md). This repository-only maintenance
+tooling does not change the files distributed through `forge.md`.
+
 ## Norms
 
 - Small, single-purpose PRs. Conventional Commit titles (`fix:`, `feat:`, `docs:`).

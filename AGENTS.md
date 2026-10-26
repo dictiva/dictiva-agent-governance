@@ -2,6 +2,20 @@
 
 A vendor-neutral agent-governance starter kit. This repo governs itself with the kit it ships.
 
+## Maintaining this repository
+
+Work from an isolated worktree on a feature branch; preserve the operator's main checkout.
+Use the Node version in `.nvmrc`. After the operator authorizes merging your own pull request,
+run `python3 scripts/merge-pr.py <PR>` from its clean worktree, then repeat with `--execute`.
+This is the only merge path: it requires the current base and successful `verify` CI, checks the
+actual local Node runtime, runs the kit proofs and secret scan, pins the head when squashing,
+confirms `mergedAt`, and tears down the merged branch. See [the gate contract](scripts/GATE.md).
+
+The gate and `.githooks/pre-commit` scanner are repository maintenance tools copied unchanged
+from the shared lifecycle templates. They are not installed into consumers by `forge.md`.
+The gate invokes the scanner directly; do not change `core.hooksPath` or replace the kit's
+existing `hooks/` files. Hook wiring and agent-memory migration are separate operator tasks.
+
 This file is the canonical, cross-harness guide for AI agents working in this repo. It is read natively by
 27+ tools (Codex, Cursor, Copilot, Gemini, goose, …). The prose `May` / `May not` below is what every tool
 reads; the machine-readable mirror is for local drift-checking and the optional Dictiva import.
