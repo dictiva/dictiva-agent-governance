@@ -11,11 +11,23 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: verify the selected Node runtime and audit script
+        run: |
+          node --input-type=module -e '
+            import assert from "node:assert/strict";
+            import { readFileSync } from "node:fs";
+            assert.equal(process.versions.node, readFileSync(".nvmrc", "utf8").trim());
+            console.log(`Node ${process.versions.node} (${process.platform}/${process.arch})`);
+          '
+          node --check scripts/lint-attests.mjs
+          node scripts/lint-attests.mjs
 
       - name: forge.md manifest matches the canonical kit files (no drift)
         run: python3 scripts/check-forge-embeds.py

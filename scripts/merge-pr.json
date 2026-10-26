@@ -1,0 +1,16 @@
+{
+  "base": "main",
+  "require_current_base": true,
+  "required_checks": [
+    "verify"
+  ],
+  "secret_scan": ".githooks/pre-commit",
+  "local_checks": [
+    "node -e 'require(\"node:assert/strict\").equal(process.versions.node, require(\"node:fs\").readFileSync(\".nvmrc\", \"utf8\").trim()); console.log(`Node ${process.versions.node} (${process.platform}/${process.arch})`);'",
+    "node --check scripts/lint-attests.mjs",
+    "node scripts/lint-attests.mjs",
+    "python3 scripts/check-forge-embeds.py",
+    "bash scripts/self-verify.sh",
+    "python3 scripts/verify-forge-selfcontained.py"
+  ]
+}
